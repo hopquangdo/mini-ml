@@ -1,6 +1,8 @@
 import numpy as np
+from models.base import BaseSupervisedModel
 
-class LinearRegression:
+
+class LinearRegression(BaseSupervisedModel):
     """
     Mô hình Linear Regression sử dụng công thức nghiệm đóng (closed-form).
     """

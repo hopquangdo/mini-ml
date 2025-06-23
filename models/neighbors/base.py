@@ -1,7 +1,7 @@
 import numpy as np
-from models.base import BaseModel
+from models.base import BaseSupervisedModel
 
-class BaseKNN(BaseModel):
+class BaseKNN(BaseSupervisedModel):
     """
     Lớp cơ sở dùng chung cho KNN Classification và Regression.
     """

@@ -1,9 +1,9 @@
 """/models/tree.py"""
 
 import numpy as np
+from models.base import BaseSupervisedModel
 
-
-class BaseDecisionTree:
+class BaseDecisionTree(BaseSupervisedModel):
     """
     Lớp cơ sở cho cây quyết định (dùng chung cho cả hồi quy và phân loại).
     Không dùng thư viện ngoài trừ numpy.

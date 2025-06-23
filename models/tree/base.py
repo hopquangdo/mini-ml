@@ -1,4 +1,4 @@
-"""/models/decision_tree.py"""
+"""/models/tree.py"""
 
 import numpy as np
 

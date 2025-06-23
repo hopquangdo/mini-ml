@@ -1,5 +1,5 @@
 import numpy as np
-from models.decision_tree.base import BaseDecisionTree
+from models.tree.base import BaseDecisionTree
 
 class DecisionTreeRegressor(BaseDecisionTree):
     """

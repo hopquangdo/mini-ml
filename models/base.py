@@ -1,5 +1,3 @@
-# models/base.py
-
 class BaseSupervisedModel:
     def fit(self, X, y):
         raise NotImplementedError

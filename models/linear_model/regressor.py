@@ -1,11 +1,9 @@
-# models/linear/regression.py
-
 import numpy as np
 from models.linear_model.base import BaseLinearModel
-from models.utils import ensure_numpy
 
 
 class LinearRegression(BaseLinearModel):
-    def predict(self, X):
-        X_bias = self._add_bias(ensure_numpy(X))
-        return X_bias @ self.weights
+    def fit(self, X, y):
+        X_bias = self._add_bias(X)
+        # Nghiệm tối ưu hóa MSE: w = (X^T X)^-1 X^T y
+        self.weights = np.linalg.pinv(X_bias.T @ X_bias) @ X_bias.T @ y

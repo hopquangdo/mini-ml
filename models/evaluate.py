@@ -1,37 +1,40 @@
-import numpy as np
-from sklearn.metrics import accuracy_score, mean_squared_error
-from base import BaseSupervisedModel, BaseUnsupervisedModel
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, \
+    recall_score, f1_score
 
 
-def evaluate_supervised(model: BaseSupervisedModel, X_train, y_train, X_test, y_test):
-    """
-    Đánh giá mô hình supervised (classification hoặc regression).
-    """
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-
-    if is_classification(y_test):
-        acc = accuracy_score(y_test, y_pred)
-        print(f"✅ Accuracy: {acc:.4f}")
-        return acc
-    else:
-        mse = mean_squared_error(y_test, y_pred)
-        print(f"✅ MSE: {mse:.4f}")
-        return mse
+def compute_regression_metrics(y_true, y_pred):
+    return {
+        "MSE": mean_squared_error(y_true, y_pred),
+        "MAE": mean_absolute_error(y_true, y_pred),
+        "R2": r2_score(y_true, y_pred)
+    }
 
 
-def evaluate_unsupervised(model: BaseUnsupervisedModel, X):
-    """
-    Đánh giá mô hình unsupervised (ví dụ: clustering).
-    """
-    model.fit(X)
+def compute_classification_metrics(y_true, y_pred, average='macro'):
+    return {
+        "Accuracy": accuracy_score(y_true, y_pred),
+        "Precision": precision_score(y_true, y_pred, average=average, zero_division=0),
+        "Recall": recall_score(y_true, y_pred, average=average, zero_division=0),
+        "F1": f1_score(y_true, y_pred, average=average, zero_division=0)
+    }
+
+
+def evaluate_model(model, X, y, is_classification_task=False):
     y_pred = model.predict(X)
-    print(f"✅ Dự đoán (cluster labels): {np.unique(y_pred)}")
-    return y_pred
+
+    if is_classification_task:
+        return compute_classification_metrics(y, y_pred)
+    else:
+        return compute_regression_metrics(y, y_pred)
 
 
-def is_classification(y):
-    """
-    Heuristic: nếu nhãn là số nguyên rời rạc thì là classification.
-    """
-    return np.issubdtype(y.dtype, np.integer) and len(np.unique(y)) < 20
+def evaluate_model_and_print(model, model_name, X_train, y_train, X_test, y_test, is_classification_task=False):
+    print("========== {} ==========".format(model_name))
+
+    print("Training model")
+    train_metrics = evaluate_model(model, X_train, y_train, is_classification_task=is_classification_task)
+    print(train_metrics)
+
+    print("Testing model")
+    test_metrics = evaluate_model(model, X_test, y_test, is_classification_task=is_classification_task)
+    print(test_metrics)

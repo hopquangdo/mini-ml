@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Node:
     def __init__(self, depth, value=None, feature_index=None, threshold=None, left=None, right=None):
         self.depth = depth
@@ -11,11 +12,13 @@ class Node:
 
 
 class TreeBuilder:
-    def __init__(self, impurity_func, leaf_func, max_depth, min_samples_split):
+    def __init__(self, impurity_func, leaf_func, max_depth, min_samples_split,
+                 use_all_thresholds=False):
         self.impurity_func = impurity_func
         self.leaf_func = leaf_func
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
+        self.use_all_thresholds = use_all_thresholds
 
     def build(self, X, y, depth=0):
         n_samples, n_features = X.shape
@@ -25,7 +28,7 @@ class TreeBuilder:
         best_feat, best_thresh, best_score = None, None, float('inf')
         for feature_index in range(n_features):
             values = np.sort(np.unique(X[:, feature_index]))
-            thresholds = (values[:-1] + values[1:]) / 2
+            thresholds = values if self.use_all_thresholds else (values[:-1] + values[1:]) / 2
             for threshold in thresholds:
                 left_mask = X[:, feature_index] <= threshold
                 right_mask = ~left_mask

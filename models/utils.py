@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import os
+import csv
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 
 def ensure_numpy(data):
@@ -36,3 +38,10 @@ def save_metrics_to_csv(filename, model_name, dataset_type, metrics_dict):
 
         row = [model_name, dataset_type] + list(metrics_dict.values())
         writer.writerow(row)
+
+def compute_regression_metrics(y_true, y_pred):
+    return {
+        "MSE": mean_squared_error(y_true, y_pred),
+        "MAE": mean_absolute_error(y_true, y_pred),
+        "R2": r2_score(y_true, y_pred)
+    }

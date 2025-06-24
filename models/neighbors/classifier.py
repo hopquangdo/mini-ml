@@ -2,7 +2,7 @@ from collections import Counter
 import numpy as np
 from models.neighbors.base import BaseKNN
 
-class KNNClassifier(BaseKNN):
+class KNeighborsClassifier(BaseKNN):
     """
     KNN cho phân loại.
     """

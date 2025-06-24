@@ -1,2 +1,2 @@
-from .regressor import KNNRegressor
-from .classifier import KNNClassifier
+from .regressor import KNeighborsRegressor
+from .classifier import KNeighborsClassifier

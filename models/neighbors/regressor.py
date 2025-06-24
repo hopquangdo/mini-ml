@@ -1,7 +1,7 @@
 import numpy as np
 from models.neighbors.base import BaseKNN
 
-class KNNRegressor(BaseKNN):
+class KNeighborsRegressor(BaseKNN):
     """
     KNN cho hồi quy.
     """

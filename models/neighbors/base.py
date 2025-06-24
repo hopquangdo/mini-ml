@@ -1,5 +1,7 @@
 import numpy as np
 from models.base import BaseSupervisedModel
+from models.utils import ensure_numpy
+
 
 class BaseKNN(BaseSupervisedModel):
     """
@@ -15,13 +17,14 @@ class BaseKNN(BaseSupervisedModel):
         """
         Lưu dữ liệu huấn luyện.
         """
-        self.X_train = X
-        self.y_train = y
+        self.X_train = ensure_numpy(X)
+        self.y_train = ensure_numpy(y)
 
     def predict(self, X):
         """
         Dự đoán đầu ra cho tập dữ liệu X.
         """
+        X = ensure_numpy(X)
         return np.array([self._predict_one(x) for x in X])
 
     def _predict_one(self, x):

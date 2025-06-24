@@ -22,6 +22,7 @@ class DecisionTreeClassifier(BaseDecisionTree):
         n = len(y_left) + len(y_right)
         return (len(y_left) * self._gini(y_left) + len(y_right) * self._gini(y_right)) / n
 
+
     def _gini(self, y):
         """
         Tính chỉ số Gini impurity của một node.

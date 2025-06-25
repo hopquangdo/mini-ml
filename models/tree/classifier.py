@@ -7,6 +7,9 @@ class DecisionTreeClassifier(BaseDecisionTree):
     Cây quyết định phân loại.
     Dùng chỉ số Gini để đánh giá chất lượng chia.
     """
+    def __init__(self, criterion="gini", **kwargs):
+        super().__init__(**kwargs)
+        self.criterion = criterion
 
     def _impurity_score(self, y_left, y_right):
         """
@@ -36,6 +39,12 @@ class DecisionTreeClassifier(BaseDecisionTree):
         counts = np.bincount(y)
         probs = counts / len(y)
         return 1.0 - np.sum(probs ** 2)
+
+    def _entropy(self, y):
+        counts = np.bincount(y)
+        probs = counts / len(y)
+        probs = probs[probs > 0]
+        return -np.sum(probs * np.log2(probs))
 
     def _leaf_value(self, y):
         """

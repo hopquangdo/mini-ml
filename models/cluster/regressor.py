@@ -4,6 +4,10 @@ from models.base import BaseSupervisedModel
 
 
 class KMeansRegressor(KMeans, BaseSupervisedModel):
+    def __init__(self):
+        super().__init__()
+        self.value_map = None
+
     def fit(self, X, y):
         super().fit(X)
         labels = self.predict(X)

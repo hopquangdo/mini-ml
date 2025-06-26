@@ -11,7 +11,6 @@ class KMeansRegressor(KMeans, BaseSupervisedModel):
     def fit(self, X, y=None):
         super().fit(X)
         labels = super().predict(X)
-        print(labels)
 
         for cluster_id in range(self.n_clusters):
             cluster_values = y[labels == cluster_id]
@@ -24,7 +23,6 @@ class KMeansRegressor(KMeans, BaseSupervisedModel):
     def predict(self, X):
         cluster_ids = super().predict(X)
         return np.array([self.value_map[int(cid)] for cid in cluster_ids])
-
 
 if __name__ == '__main__':
     X_train = np.array([

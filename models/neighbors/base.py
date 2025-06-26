@@ -3,9 +3,10 @@ from models.base import BaseSupervisedModel
 
 
 class BaseKNN(BaseSupervisedModel):
-    def __init__(self, k=3, distance_metric='euclidean'):
+    def __init__(self, k=3, distance_metric='euclidean', weights="uniform"):
         self.k = k
         self.distance_metric = distance_metric
+        self.weights = weights
         self.X_train = None
         self.y_train = None
 
@@ -19,9 +20,16 @@ class BaseKNN(BaseSupervisedModel):
     def _predict_one(self, x):
         raise NotImplementedError()
 
-    def _get_k_nearest_indices(self, x):
+    def _compute_distances(self, x):
         if self.distance_metric == 'euclidean':
-            distances = np.linalg.norm(self.X_train - x, axis=1)
-        else:
-            distances = np.sum(np.abs(self.X_train - x), axis=1)
-        return np.argsort(distances)[:self.k]
+            return np.linalg.norm(self.X_train - x, axis=1)
+        return np.sum(np.abs(self.X_train - x), axis=1)
+
+    def _compute_weights(self, distances, labels):
+        distances = np.where(distances == 0, 1e-8, distances)
+        return 1.0 / distances
+
+    def _get_k_nearest(self, x):
+        distances = self._compute_distances(x)
+        indices = np.argsort(distances)[:self.k]
+        return indices, distances[indices]

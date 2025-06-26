@@ -14,11 +14,8 @@ class BaseSVM(BaseSupervisedModel):
         self.w = np.zeros(n_features)
         self.b = 0
 
-    def _add_bias(self, X):
-        return np.c_[X, np.ones((X.shape[0],))]  # for debug only
-
     def _linear_kernel(self, X1, X2):
-        return X1 @ X2.T  # Dot product for linear kernel
+        return X1 @ X2.T
 
     def decision_function(self, X):
         return X @ self.w + self.b

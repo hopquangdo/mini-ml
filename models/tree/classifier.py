@@ -16,16 +16,15 @@ class DecisionTreeClassifier(BaseDecisionTree):
         return self._entropy(y_full) - weighted_entropy
 
     def _gini(self, y):
-        counts = np.bincount(y)
+        _, counts = np.unique(y, return_counts=True)
         probs = counts / len(y)
         return 1.0 - np.sum(probs ** 2)
 
     def _entropy(self, y):
-        print(y)
         y = np.asarray(y).ravel()
         if len(y) == 0:
             return 0.0
-        counts = np.bincount(y)
+        _, counts = np.unique(y, return_counts=True)
         probs = counts / len(y)
         probs = probs[probs > 0]
         return -np.sum(probs * np.log2(probs))

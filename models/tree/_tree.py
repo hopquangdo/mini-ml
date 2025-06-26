@@ -27,10 +27,11 @@ class TreeBuilder:
 
         best_feat, best_thresh, best_score = None, None, float('inf')
         for feature_index in range(n_features):
-            values = np.sort(np.unique(X[:, feature_index]))
+            column = X[:, feature_index]
+            values = np.sort(np.unique(column))
             thresholds = values if self.use_all_thresholds else (values[:-1] + values[1:]) / 2
             for threshold in thresholds:
-                left_mask = X[:, feature_index] <= threshold
+                left_mask = column <= threshold
                 right_mask = ~left_mask
                 if np.sum(left_mask) == 0 or np.sum(right_mask) == 0:
                     continue

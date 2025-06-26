@@ -2,8 +2,8 @@ from models.svm.base import BaseSVM
 
 
 class SVR(BaseSVM):
-    def __init__(self, epsilon=0.1):
-        super().__init__()
+    def __init__(self, epsilon=0.1, **kwargs):
+        super().__init__(**kwargs)
         self.epsilon = epsilon
 
     def fit(self, X, y):

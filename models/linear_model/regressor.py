@@ -7,3 +7,7 @@ class LinearRegression(BaseLinearModel):
         X_bias = self._add_bias(X)
         # Nghiệm tối ưu hóa MSE: w = (X^T X)^-1 X^T y
         self.weights = np.linalg.pinv(X_bias.T @ X_bias) @ X_bias.T @ y
+
+    def predict(self, X):
+        X_bias = self._add_bias(X)
+        return X_bias @ self.weights

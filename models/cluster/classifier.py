@@ -17,8 +17,6 @@ class KMeansClassifier(KMeans, BaseSupervisedModel):
         for cluster_id in range(self.n_clusters):
             cluster_points = y[cluster_ids == cluster_id]
 
-            print(cluster_points)
-
             if len(cluster_points) > 0:
                 self.label_map[cluster_id] = Counter(cluster_points).most_common(1)[0][0]
             else:

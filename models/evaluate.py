@@ -1,3 +1,5 @@
+import time
+
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, \
     recall_score, f1_score
 
@@ -20,12 +22,17 @@ def compute_classification_metrics(y_true, y_pred, average='macro'):
 
 
 def evaluate_model(model, X, y, is_classification_task=False):
+    start_time = time.time()
     y_pred = model.predict(X)
+    end_time = time.time()
 
     if is_classification_task:
-        return compute_classification_metrics(y, y_pred)
+        metrics = compute_classification_metrics(y, y_pred)
     else:
-        return compute_regression_metrics(y, y_pred)
+        metrics = compute_regression_metrics(y, y_pred)
+
+    metrics["Runtime (s)"] = end_time - start_time
+    return metrics
 
 
 def evaluate_model_and_print(model, model_name, X_train, y_train, X_test, y_test, is_classification_task=False):

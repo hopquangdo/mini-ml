@@ -6,8 +6,6 @@ class BaseLinearModel(BaseSupervisedModel):
         self.weights = None
 
     def _add_bias(self, X):
-        return np.c_[np.ones((X.shape[0], 1)), X]
-
-    def predict(self, X):
-        X_bias = self._add_bias(X)
-        return X_bias @ self.weights
+        n_samples = X.shape[0]
+        bias_column = np.ones((n_samples, 1))
+        return np.concatenate((bias_column, X), axis=1)

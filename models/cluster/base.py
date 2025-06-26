@@ -11,8 +11,8 @@ class KMeans(BaseUnsupervisedModel):
 
     def fit(self, X):
         np.random.seed(42)
-        random_idx = np.random.permutation(X.shape[0])[:self.n_clusters]
-        self.centroids = X[random_idx]
+        indices = np.random.permutation(len(X))[:self.n_clusters]
+        self.centroids = X[indices]
 
         for _ in range(self.max_iter):
             labels = self._assign_labels(X)
@@ -31,5 +31,8 @@ class KMeans(BaseUnsupervisedModel):
         return self._assign_labels(X)
 
     def _assign_labels(self, X):
-        distances = np.linalg.norm(X[:, np.newaxis] - self.centroids, axis=2)
+        distances = []
+        for point in X:
+            point_distances = np.linalg.norm(point - self.centroids, axis=1)
+            distances.append(point_distances)
         return np.argmin(distances, axis=1)

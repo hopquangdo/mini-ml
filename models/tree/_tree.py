@@ -34,7 +34,7 @@ class TreeBuilder:
                 right_mask = ~left_mask
                 if np.sum(left_mask) == 0 or np.sum(right_mask) == 0:
                     continue
-                score = self.impurity_func(y[left_mask], y[right_mask])
+                score = self.impurity_func(y[left_mask], y[right_mask], y)
                 if score < best_score:
                     best_score = score
                     best_feat = feature_index

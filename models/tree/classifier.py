@@ -2,58 +2,33 @@ import numpy as np
 from collections import Counter
 from models.tree.base import BaseDecisionTree
 
+
 class DecisionTreeClassifier(BaseDecisionTree):
-    """
-    Cây quyết định phân loại.
-    Dùng chỉ số Gini để đánh giá chất lượng chia.
-    """
     def __init__(self, criterion="gini", **kwargs):
         super().__init__(**kwargs)
         self.criterion = criterion
 
-    def _impurity_score(self, y_left, y_right):
-        """
-        Tính chỉ số Gini có trọng số sau khi chia nhánh.
-
-        Parameters:
-        - y_left: mảng nhãn bên trái
-        - y_right: mảng nhãn bên phải
-
-        Returns:
-        - Giá trị Gini sau khi chia
-        """
+    def _impurity_score(self, y_left, y_right, y_full=None):
         n = len(y_left) + len(y_right)
-        return (len(y_left) * self._gini(y_left) + len(y_right) * self._gini(y_right)) / n
-
+        if self.criterion == "gini":
+            return (len(y_left) * self._gini(y_left) + len(y_right) * self._gini(y_right)) / n
+        weighted_entropy = (len(y_left) * self._entropy(y_left) + len(y_right) * self._entropy(y_right)) / n
+        return self._entropy(y_full) - weighted_entropy
 
     def _gini(self, y):
-        """
-        Tính chỉ số Gini impurity của một node.
-
-        Parameters:
-        - y: mảng nhãn
-
-        Returns:
-        - Gini impurity
-        """
         counts = np.bincount(y)
         probs = counts / len(y)
         return 1.0 - np.sum(probs ** 2)
 
     def _entropy(self, y):
+        print(y)
+        y = np.asarray(y).ravel()
+        if len(y) == 0:
+            return 0.0
         counts = np.bincount(y)
         probs = counts / len(y)
         probs = probs[probs > 0]
         return -np.sum(probs * np.log2(probs))
 
     def _leaf_value(self, y):
-        """
-        Trả về nhãn xuất hiện nhiều nhất tại node lá.
-
-        Parameters:
-        - y: mảng nhãn tại node
-
-        Returns:
-        - Nhãn phổ biến nhất
-        """
         return Counter(y).most_common(1)[0][0]

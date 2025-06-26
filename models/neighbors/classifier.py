@@ -1,13 +1,8 @@
 from collections import Counter
-import numpy as np
 from models.neighbors.base import BaseKNN
 
 
 class KNeighborsClassifier(BaseKNN):
-    """
-    KNN cho phân loại.
-    """
-
     def _predict_one(self, x):
         nearest = self._get_k_nearest_indices(x)
         top_k_labels = self.y_train[nearest]

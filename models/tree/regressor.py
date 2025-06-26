@@ -1,34 +1,25 @@
 import numpy as np
 from models.tree.base import BaseDecisionTree
 
+
 class DecisionTreeRegressor(BaseDecisionTree):
-    """
-    Cây quyết định hồi quy.
-    Dùng phương sai (variance) để đánh giá chất lượng chia.
-    """
+    def __init__(self, criterion="mse", **kwargs):
+        super().__init__(**kwargs)
+        self.criterion = criterion
 
-    def _impurity_score(self, y_left, y_right):
-        """
-        Tính tổng phương sai (variance) có trọng số sau khi chia nhánh.
+    def _impurity_score(self, y_left, y_right, y_full=None):
+        n_left = len(y_left)
+        n_right = len(y_right)
+        n_total = n_left + n_right
 
-        Parameters:
-        - y_left: mảng nhãn bên trái
-        - y_right: mảng nhãn bên phải
+        if self.criterion == "mse":
+            mse_left = np.var(y_left) if n_left > 0 else 0
+            mse_right = np.var(y_right) if n_right > 0 else 0
+            return (n_left * mse_left + n_right * mse_right) / n_total
 
-        Returns:
-        - Giá trị tổng phương sai sau khi chia
-        """
-        n = len(y_left) + len(y_right)
-        return (len(y_left) * np.var(y_left) + len(y_right) * np.var(y_right)) / n
+        mae_left = np.mean(np.abs(y_left - np.mean(y_left))) if n_left > 0 else 0
+        mae_right = np.mean(np.abs(y_right - np.mean(y_right))) if n_right > 0 else 0
+        return (n_left * mae_left + n_right * mae_right) / n_total
 
     def _leaf_value(self, y):
-        """
-        Trả về trung bình của nhãn tại node lá (giá trị dự đoán).
-
-        Parameters:
-        - y: mảng nhãn tại node
-
-        Returns:
-        - Trung bình của y
-        """
         return np.mean(y)

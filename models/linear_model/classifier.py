@@ -21,7 +21,6 @@ class LogisticRegression(BaseLinearModel):
             self.weights -= self.lr * gradient
 
     def predict_proba(self, X):
-        """Predict Probability of X"""
         X_bias = self._add_bias(X)
         logits = X_bias @ self.weights
         return 1 / (1 + np.exp(-logits))

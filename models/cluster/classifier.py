@@ -12,10 +12,10 @@ class KMeansClassifier(KMeans, BaseSupervisedModel):
     def fit(self, X, y=None):
         super().fit(X)
         cluster_ids = super().predict(X)
-        print(cluster_ids)
 
         for cluster_id in range(self.n_clusters):
-            cluster_points = y[cluster_ids == cluster_id]
+            mask = (cluster_ids == cluster_id)
+            cluster_points = y[mask]
 
             if len(cluster_points) > 0:
                 self.label_map[cluster_id] = Counter(cluster_points).most_common(1)[0][0]
@@ -42,3 +42,4 @@ if __name__ == '__main__':
     y_train = np.array([0, 0, 0, 1, 1, 1, 3])
     model = KMeansClassifier(n_clusters=3, max_iter=100)
     model.fit(X_train, y_train)
+    print(model.predict(X_train))

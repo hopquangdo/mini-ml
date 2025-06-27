@@ -21,9 +21,6 @@ class DecisionTreeClassifier(BaseDecisionTree):
         return 1.0 - np.sum(probs ** 2)
 
     def _entropy(self, y):
-        y = np.asarray(y).ravel()
-        if len(y) == 0:
-            return 0.0
         _, counts = np.unique(y, return_counts=True)
         probs = counts / len(y)
         probs = probs[probs > 0]

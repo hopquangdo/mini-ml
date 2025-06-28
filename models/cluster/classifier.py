@@ -38,8 +38,8 @@ if __name__ == '__main__':
         [8, 8],
         [100, 100]
     ])
-
     y_train = np.array([0, 0, 0, 1, 1, 1, 3])
+
     model = KMeansClassifier(n_clusters=3, max_iter=100)
     model.fit(X_train, y_train)
     print(model.predict(X_train))

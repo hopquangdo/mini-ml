@@ -1,1 +1,1 @@
-# 🧠 MiniSKLearn
+# 🧠 Mini Machine Learning

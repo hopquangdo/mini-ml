@@ -1,4 +1,4 @@
-from models.base import BaseSupervisedModel
+from models.core import BaseSupervisedModel
 import numpy as np
 from models.tree._tree import TreeBuilder
 

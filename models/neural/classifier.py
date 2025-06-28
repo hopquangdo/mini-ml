@@ -1,6 +1,11 @@
-from models.neural.core import BaseNeuralNet
+from models.neural.base import BaseNeuralNetwork
 
 
-class ClassificationNeuralNet(BaseNeuralNet):
-    def __init__(self, **kwargs):
-        super(ClassificationNeuralNet, self).__init__(**kwargs)
+class ClassificationNeuralNetwork(BaseNeuralNetwork):
+    def __init__(self, threshold=0.5, **kwargs):
+        super(ClassificationNeuralNetwork, self).__init__(**kwargs)
+        self.threshold = threshold
+
+    def predict(self, X):
+        probs = self.forward(X)
+        return (probs > self.threshold).astype(int)

@@ -1,11 +1,6 @@
-from models.base import BaseSupervisedModel
+class Layer:
+    def forward(self, input):
+        raise NotImplementedError
 
-
-class BaseNeuralNet(BaseSupervisedModel):
-    def __init__(self,
-                 input_dim,
-                 hidden_dim,
-                 output_dim=1,
-                 learning_rate=0.1):
-        self.lr = learning_rate
-        
+    def backward(self, grad_output, learning_rate):
+        raise NotImplementedError

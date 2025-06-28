@@ -1,1 +1,2 @@
-from models.neural.core.base import BaseNeuralNet
+from .regressor import RegressionNeuralNetwork
+from .classifier import ClassificationNeuralNetwork

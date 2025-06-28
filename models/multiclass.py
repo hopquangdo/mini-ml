@@ -1,5 +1,5 @@
 import numpy as np
-from models.base import BaseSupervisedModel
+from models.core import BaseSupervisedModel
 
 
 class OneVsRestClassifier(BaseSupervisedModel):

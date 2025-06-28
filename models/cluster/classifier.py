@@ -1,7 +1,7 @@
 from collections import Counter
 import numpy as np
 from models.cluster import KMeans
-from models.base import BaseSupervisedModel
+from models.core.losses.base import BaseSupervisedModel
 
 
 class KMeansClassifier(KMeans, BaseSupervisedModel):

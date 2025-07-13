@@ -23,7 +23,7 @@ class OneVsRestClassifier(BaseSupervisedModel):
     def predict(self, X):
         probs = np.array([model.predict_proba(X) for model in self.models])
         preds = np.argmax(probs, axis=0)
-        return self.classes[preds]
+        return self.classes[preds].flatten()
 
 
 class OneVsOneClassifier(BaseSupervisedModel):

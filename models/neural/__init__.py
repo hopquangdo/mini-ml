@@ -1,2 +1,1 @@
-from .regressor import RegressionNeuralNetwork
-from .classifier import ClassificationNeuralNetwork
+from .model import NeuralNetwork

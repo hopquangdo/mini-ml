@@ -1,5 +1,5 @@
 import numpy as np
-from models.neural.core import Layer
+from models.neural.core.base import Layer
 
 
 class Dense(Layer):

@@ -1,8 +1,10 @@
+from typing import List
 from models.core import BaseSupervisedModel
+from models.neural.core.base import Layer
 
 
-class BaseNeuralNetwork(BaseSupervisedModel):
-    def __init__(self, layers, loss):
+class NeuralNetwork(BaseSupervisedModel):
+    def __init__(self, layers: List[Layer], loss):
         self.layers = layers
         self.loss = loss
 
@@ -22,5 +24,8 @@ class BaseNeuralNetwork(BaseSupervisedModel):
             loss_val = self.loss.forward(y_pred, y)
             grad = self.loss.backward()
             self.backward(grad, learning_rate)
-            if epoch % 100 == 0:
-                print(f"Epoch {epoch}, Loss: {loss_val:.4f}")
+
+        print(f"Final Loss after {epochs} epochs: {loss_val:.4f}")
+
+    def predict(self, X):
+        return self.forward(X)

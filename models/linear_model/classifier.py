@@ -23,8 +23,9 @@ class LogisticRegression(BaseLinearModel):
     def predict_proba(self, X):
         X_bias = self._add_bias(X)
         logits = X_bias @ self.weights
-        return 1 / (1 + np.exp(-logits))
+        probs = 1 / (1 + np.exp(-logits))
+        return np.vstack([1 - probs, probs]).T
 
     def predict(self, X):
         probs = self.predict_proba(X)
-        return (probs >= self.threshold).astype(int)
+        return (probs[:, 1] >= self.threshold).astype(int)

@@ -21,9 +21,9 @@ class OneVsRestClassifier(BaseSupervisedModel):
             self.models.append(model)
 
     def predict(self, X):
-        probs = np.array([model.predict_proba(X) for model in self.models])
-        preds = np.argmax(probs, axis=0)
-        return self.classes[preds].flatten()
+        probs = np.array([model.predict_proba(X)[:, 1] for model in self.models]).T
+        preds = np.argmax(probs, axis=1)
+        return self.classes[preds]
 
 
 class OneVsOneClassifier(BaseSupervisedModel):
